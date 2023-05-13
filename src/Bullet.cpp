@@ -1,19 +1,16 @@
 #include "Bullet.h"
 
-// Bullet::Bullet() {}
-
-Bullet::~Bullet() {}
-
 Bullet::Bullet(std::shared_ptr<Texture2D> Tex, const glm::vec2& Pos, Direction direction, bool from_player, GLfloat Speed, const glm::vec2& Size) :
     GameObject(Tex, Pos, Size), from_player(from_player), direction(direction), speed(Speed)
 {
+    this->IsDestroyed = false;
     this->type = OBJ::BULLET;
+    this->enhanced = false;
 }
 
 void Bullet::get_shot(bool enhanced) {
     this->IsDestroyed = true;
 }
-
 
 void Bullet::move() {
     switch (this->direction)

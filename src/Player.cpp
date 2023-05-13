@@ -6,14 +6,10 @@ Player::Player(std::shared_ptr<Texture2D> Tex, const glm::vec2& Pos, const glm::
     init();
 }
 
-Player::~Player() {}
-
 void Player::init() {
     this->level_max = 2;/*玩家最大等级*/
     this->level = 0;/*玩家初始等级*/
 }
-
-Player::Player() {}
 
 void Player::level_up() {
     level++;

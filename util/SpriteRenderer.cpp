@@ -20,8 +20,10 @@ void SpriteRenderer::draw_common(std::shared_ptr<Texture2D> texture, glm::vec2 p
     // int x_c,int y_c,int x_i,int y_i;
     this->shader->use();
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(position, 0.0f));
-    model = glm::scale(model, glm::vec3(size, 1.0f));
+    //model = glm::translate(model, glm::vec3(position, 0.0f));
+    //model = glm::scale(model, glm::vec3(size, 1.0f));
+    model = glm::translate(model, glm::vec3(position + 0.5f * size, 0.0f));
+    model = glm::scale(model, glm::vec3(size*0.5f, 1.0f));
     shader->setMatrix4("model", model);
 
     this->shader->setVector4f("info", tex_info);
@@ -59,12 +61,20 @@ void SpriteRenderer::initRenderData() {
     //     0.0f,  1.0f, 0.0f,   0.5f, 1.0f  // top left 
     // };
 
+    //float vertices[] = {
+    //    // positions          // texture coords
+    //    1.0f,  1.0f, 0.0f,   1.0f, 1.0f, // top right
+    //    1.0f,  0.0f, 0.0f,   1.0f, 0.0f, // bottom right
+    //    0.0f,  0.0f, 0.0f,   0.0f, 0.0f, // bottom left
+    //    0.0f,  1.0f, 0.0f,   0.0f, 1.0f  // top left 
+    //};
+
     float vertices[] = {
         // positions          // texture coords
         1.0f,  1.0f, 0.0f,   1.0f, 1.0f, // top right
-        1.0f,  0.0f, 0.0f,   1.0f, 0.0f, // bottom right
-        0.0f,  0.0f, 0.0f,   0.0f, 0.0f, // bottom left
-        0.0f,  1.0f, 0.0f,   0.0f, 1.0f  // top left 
+        1.0f,  -1.0f, 0.0f,   1.0f, 0.0f, // bottom right
+        -1.0f,  -1.0f, 0.0f,   0.0f, 0.0f, // bottom left
+        -1.0f,  1.0f, 0.0f,   0.0f, 1.0f  // top left 
     };
     unsigned int indices[] = {
         0, 1, 3, // first triangle

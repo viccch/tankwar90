@@ -30,7 +30,7 @@ if (CMAKE_HOST_WIN32)
 
     target_link_libraries(${PROJECT_NAME}
     # PRIVATE OpenGL
-    PRIVATE GL
+    # PRIVATE GL
     PRIVATE glfw
     PRIVATE glm::glm
     PRIVATE GLEW::GLEW

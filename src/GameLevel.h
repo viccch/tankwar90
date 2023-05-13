@@ -30,7 +30,7 @@ public:
   std::vector<Food>foods;/*food*/
   std::vector<GameObject> tiles;/*障碍*/
   Home home;/*home*/
-  enum LevelState { LEVEL_ON, LEVEL_WIN, LEVEL_LOSE, }state = LevelState::LEVEL_ON;/**/
+  enum LevelState { LEVEL_ON, LEVEL_WIN, LEVEL_LOSE, }state;/**/
 
 public:
   ~GameLevel();/*若私有析构函数，将只能由new构造函数*/

@@ -5,10 +5,11 @@ Home::Home(std::shared_ptr<Texture2D> Tex, const glm::vec2& Pos, const glm::vec2
 {
     this->type = OBJ::HOME;
     this->IsDestroyed = false;
-
+    this->boom = false;
+    this->boom_start_time = 0.0;
+    this->boom_current_step = 0;
+    this->boom_duration = 3.0f;
 }
-
-Home::~Home() {}
 
 void Home::draw(SpriteRenderer& renderer)const
 {
@@ -38,7 +39,7 @@ void Home::boom_doing() {
         IsDestroyed = true;
     }
     else {
-        boom_current_step = (current_time - boom_start_time) / boom_duration * 6;
+        boom_current_step = (int)((current_time - boom_start_time) / boom_duration * 6);
     }
 }
 

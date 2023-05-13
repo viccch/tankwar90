@@ -18,7 +18,7 @@
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
-float get_fps();
+int get_fps();
 double lastTime = 0.0;
 int nbFrames = 0;
 GLFWwindow* window;
@@ -132,7 +132,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 }
 
 
-float get_fps() {
+int get_fps() {
     double currentTime = glfwGetTime();
     double delta = currentTime - lastTime;
     nbFrames++;

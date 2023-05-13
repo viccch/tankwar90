@@ -71,17 +71,16 @@ GameLevel GameLevel::Load(const GLchar* file)
                         continue;
 
                     GameObject obj;
+                    obj.IsDestroyed = false;
                     obj.pos = glm::vec2(j, 26 - 1 - i);
                     obj.size = glm::vec2(1, 1);
+                    obj.type = (OBJ)Map[i][j];
 
                     switch (Map[i][j])
                     {
-                    case OBJ::DEFAULT:
-                        obj.type = OBJ::DEFAULT;
-                        break;
-
                     case OBJ::HOME:
                     {
+                        level.home.IsDestroyed = false;
                         level.home.type = OBJ::HOME;
                         level.home.texture = ResourceManager::getTexture("home");
                         level.home.size = obj.size * 2.0f;
@@ -90,35 +89,26 @@ GameLevel GameLevel::Load(const GLchar* file)
                         break;
                     }
                     case OBJ::BRICK:
-                        obj.type = OBJ::BRICK;
                         obj.texture = ResourceManager::getTexture("brick");
-                        // obj.IsSolid = GL_TRUE;
                         break;
 
                     case OBJ::IRON:
-                        obj.type = OBJ::IRON;
                         obj.texture = ResourceManager::getTexture("iron");
-                        // obj.IsSolid = GL_TRUE;
                         break;
 
                     case OBJ::RIVER:
-                        obj.type = OBJ::RIVER;
                         obj.texture = ResourceManager::getTexture("river1");
-                        // obj.IsSolid = GL_FALSE;
                         break;
 
                     case OBJ::TREE:
-                        obj.type = OBJ::TREE;
                         obj.texture = ResourceManager::getTexture("tree");
-                        // obj.IsSolid = GL_FALSE;
                         break;
 
                     case OBJ::ICE:
-                        obj.type = OBJ::ICE;
                         obj.texture = ResourceManager::getTexture("ice");
-                        // obj.IsSolid = GL_TRUE;
                         break;
 
+                    case OBJ::DEFAULT:
                     default:
                         break;
                     }
@@ -165,6 +155,8 @@ GameLevel::GameLevel()
 
     this->enemy_created = 0;
     this->enemy_surviving = 0;
+
+    this->state = GameLevel::LevelState::LEVEL_ON;
 }
 GameLevel::~GameLevel()
 {
@@ -194,7 +186,6 @@ bool  GameLevel::create_food_ok() {
 
 void GameLevel::create_food()
 {
-
     glm::vec2 food_pos = glm::vec2(get_rand_real(0, 25), get_rand_real(0, 25));
     int food_type = get_rand_int(1, 7);
 
@@ -235,7 +226,6 @@ void GameLevel::create_food()
     default:
         break;
     }
-
 }
 
 void GameLevel::enemy_die()
@@ -249,13 +239,10 @@ void GameLevel::win()
     std::cout << "game win!\n";
 }
 
-
-
 void GameLevel::lose() {
     this->state = LevelState::LEVEL_LOSE;
     std::cout << "game lose!\n";
 }
-
 
 int GameLevel::get_enemys_remain() {
     return enemy_nums - enemy_created + enemy_surviving;

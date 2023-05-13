@@ -1,6 +1,9 @@
 
 third_party/
 build/
+bak/
+out/
+.vs/
 .vscode/
 *.zip
 Makefile

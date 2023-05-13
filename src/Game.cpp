@@ -182,12 +182,10 @@ void Game::update_game() {
     }
 
     auto tank_check = [=](Tank& tank) {
-        if (tank.protect) {
+        if (tank.protect)
             tank.protect_doing();
-        }
-        if (tank.boom) {
+        if (tank.boom) 
             tank.boom_doing();
-        }
     };
 
     tank_check(*this->player_1);
@@ -202,7 +200,6 @@ void Game::update_game() {
 
     case  GameLevel::LevelState::LEVEL_ON:
     {
-
     }
     break;
 
@@ -234,7 +231,6 @@ void Game::update_game() {
         if (keys[GLFW_KEY_ENTER])
         {
         }
-
     }
     break;
 
@@ -421,20 +417,7 @@ void Game::obj_move() {
 
         /*随即尝试方向*/
         auto auto_get_rand_dirction = [](Tank& tank) {
-            switch (get_rand_int(0, 3)) {
-            case Direction::UP:
-                tank.direction = Direction::UP;
-                break;
-            case Direction::DOWN:
-                tank.direction = Direction::DOWN;
-                break;
-            case Direction::LEFT:
-                tank.direction = Direction::LEFT;
-                break;
-            case Direction::RIGHT:
-                tank.direction = Direction::RIGHT;
-                break;
-            }
+            tank.direction =(Direction)get_rand_int(0, 3);
         };
 
         /*让坦克轮子转起来！*/
@@ -609,28 +592,11 @@ void Game::obj_move() {
         if (!tank.cd_bullet_ok(get_time_from_init()))
             return;
 
-        Bullet bullet(nullptr, tank.pos, tank.direction, is_player);
-        bullet.pos += tank.size * 0.5f - bullet.size * 0.5f;
-        bullet.enhanced = tank.bullet_enhanced;
-        switch (tank.direction) {
-        case Direction::UP:
-            bullet.texture = ResourceManager::getTexture("bullet_up");
-            break;
-        case Direction::DOWN:
-            bullet.texture = ResourceManager::getTexture("bullet_down");
-            break;
-        case Direction::LEFT:
-            bullet.texture = ResourceManager::getTexture("bullet_left");
-            break;
-        case Direction::RIGHT:
-            bullet.texture = ResourceManager::getTexture("bullet_right");
-            break;
-        default:
-            break;
-        }
+        Bullet bullet(tank.fire()); /*回调函数*/
+        bullet.from_player = is_player;
+
         this->bullets->push_back(bullet);
 
-        tank.fire(get_time_from_init()); /*回调函数*/
         soundEngine->play(ResourceManager::getBGM("fire"), get_time_from_init());
     };
 
@@ -720,7 +686,6 @@ void Game::obj_move() {
                 bullet.IsDestroyed = true;
                 return;
             }
-
 
             /*若碰撞，检查类型，
             * 若被击中，销毁子弹，调用get_shot();
